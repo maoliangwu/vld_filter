@@ -44,6 +44,7 @@
 #include "set.h"        // Provides a custom STL-like set template.
 #include "utility.h"    // Provides miscellaneous utility functions.
 #include "vldallocator.h"   // Provides internal allocator.
+#include <list>
 
 #define MAXMODULELISTLENGTH 512     // Maximum module list length, in characters.
 #define SELFTESTTEXTA       "Memory Leak Self-Test"
@@ -268,6 +269,9 @@ public:
     VOID EnableModule(HMODULE module);
     VOID DisableModule(HMODULE module);
     UINT32 GetOptions();
+    std::list<const wchar_t*>& GetIgnores() {
+        return ignore_str_list;
+    };
     VOID GetReportFilename(WCHAR *filename);
     VOID SetOptions(UINT32 option_mask, SIZE_T maxDataDump, UINT32 maxTraceFrames);
     VOID SetReportOptions(UINT32 option_mask, CONST WCHAR *filename);
@@ -395,6 +399,8 @@ private:
     TlsMap              *m_tlsMap;            // Set of all thread-local storage structures for the process.
     HMODULE              m_vldBase;           // Visual Leak Detector's own module handle (base address).
     HMODULE              m_dbghlpBase;
+    std::list<const wchar_t*>         ignore_str_list{ L"vernal_mud_framework", L"popo_pinyin_convert",L"unordered_map",
+        L"xstring", L"curl_network_session_manager_uv", L"xtree", L" xmap", L"WorkFlow", L"new_curl_http_manager", L" tracked_objects"};           // Configuration options.
 
     VOID __stdcall ChangeModuleState(HMODULE module, bool on);
     static GetProcAddress_t m_GetProcAddress;

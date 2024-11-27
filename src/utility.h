@@ -32,6 +32,7 @@ Applications should never include this header."
 #include <cstdio>
 #include <windows.h>
 #include <intrin.h>
+#include <string>
 
 #ifdef _WIN64
 #define ADDRESSFORMAT       L"0x%.16X"   // Format string for 64-bit addresses
@@ -161,6 +162,7 @@ DWORD CalculateCRC32(UINT_PTR p, UINT startValue = 0xD202EF8D);
 void GetFormattedMessage(DWORD last_error);
 HMODULE GetCallingModule(UINT_PTR pCaller);
 DWORD FilterFunction(long);
-BOOL LoadBoolOption(LPCWSTR optionname, LPCWSTR defaultvalue, LPCWSTR inipath);
+BOOL LoadBoolOption(LPCWSTR optionname, LPCWSTR defaultvalue, LPCWSTR inipath); 
+BOOL LoadIgnoreStrOption(LPCWSTR optionname, std::wstring& value, LPCWSTR inipath);
 UINT LoadIntOption(LPCWSTR optionname, UINT defaultvalue, LPCWSTR inipath);
 VOID LoadStringOption(LPCWSTR optionname, LPWSTR outputbuffer, UINT buffersize, LPCWSTR inipath);

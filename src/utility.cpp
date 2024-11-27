@@ -1212,6 +1212,21 @@ BOOL LoadBoolOption(LPCWSTR optionname, LPCWSTR defaultvalue, LPCWSTR inipath)
     return StrToBool(buffer);
 }
 
+BOOL LoadIgnoreStrOption(LPCWSTR optionname, std::wstring& value, LPCWSTR inipath)
+{
+    const UINT buffersize = 5000;
+    WCHAR buffer[buffersize] = { 0 };
+
+    WCHAR envirinmentoptionname[buffersize] = L"Vld";
+    wcscat_s(envirinmentoptionname, buffersize, optionname);
+
+    if (!GetEnvironmentVariable(envirinmentoptionname, buffer, buffersize)) {
+        GetPrivateProfileString(L"Options", optionname, L"", buffer, buffersize, inipath);
+    }
+    value = buffer;
+    return TRUE;
+}
+
 // LoadIntOption - Loads specified option from environment variables or from specified ini file,
 //   if env var is unavailable.
 //

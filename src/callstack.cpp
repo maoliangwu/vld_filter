@@ -335,7 +335,14 @@ void CallStack::dump(BOOL showInternalFrames)
     if (!m_resolved) {
         resolve(showInternalFrames);
     }
-
+    std::list<const wchar_t*>& igs = g_vld.GetIgnores();
+    for (auto it : igs)
+    {
+        if (std::wcsstr(m_resolved,it)!= NULL)
+        {
+            return;
+        }
+    }
     // The stack was reoslved already
     if (m_resolved) {
         return Print(m_resolved);
